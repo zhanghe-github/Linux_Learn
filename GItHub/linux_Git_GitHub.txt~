@@ -8,8 +8,7 @@
 
 第三步：生成ssh key。在PC机上操作：首先在/home/zhanghe下建立".ssh"文件夹，
 		cd到/home/zhanghe/.ssh,利用ssh-keygen工具生成公钥：
-		输入命令：$ ssh-keygen -t rsa -C "zhanghe@cqu
-.edu.cn" 注意：邮箱是注册github的邮箱；
+		输入命令：$ ssh-keygen -t rsa -C "zhanghe@cqu.edu.cn" 注意：邮箱是注册github的邮箱；
 		出现提示，一路回车即可；
 	
 第四步；添加ssh key 到GitHub中：（在github网页上操作）
