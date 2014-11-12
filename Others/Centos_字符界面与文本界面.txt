@@ -1,0 +1,80 @@
+
+由字符界面切换到图形界面可用两种简单方法实现：
+1、在字符界面输入startx或init 5 。
+2、通过编辑/etc/inittab文件实现默认进入图形界面。
+把其中的id:3:initdefault中的3改为5，这样以后系统启动后将直接进入文本模式。
+
+以下是配置引导进入图形模式的etc/inittab文件的部分内容：
+#Default runlevel.The runlevels used by RHS are:
+# 0-halt(Do NOT set initdefault to this)
+# 1 -Single user mode
+# 2-Multiuser,without NFS(The same as 3,if you do not have networking)
+# 3-Full multiuser mode    
+# 4-unused
+# 5-X11                   //选择此项，系统在登录时将进入图形化登录界面
+# 6-reboot(Do NOT set initdefault to this)
+#
+id:3:initdefault:        //此处若改为3，系统将被引导进入文本登录提示符界面
+
+
+
+ 
+让linux启动后自动进入图形界面或文本界面
+
+a.开机进入图形界面：安装时选图形启动方式或把/etc /inittab的id:x:initdefault:这行改成id:5:initdefault:。
+
+b.开机不进入图形界面：安装时选文本启动方式或把/etc/inittab的id:x:initdefault:这行改成id:3:initdefault:。
+
+*inittab是做什么的？
+
+在KERNEL起来之后，将生成第一个进程——init，实际上是执行了/sbin/init。init的工作是根据/etc/inittab来执行相应的脚本进行系统初始化，如设置键盘、字体，装载模块，设置网络，等等。
+
+/etc/inittab文件的每一行包括四个域：
+
+id:runlevels:action:process
+
+runlevel是运行模式，通常为0-6。模式0是 halt，模式6是reboot，模式1是单用户，模式2/3是多用户，模式5是运行xdm以图形界面方式登录。id为标识符，通常为两个字母。 process为需要执行的程序或脚本。action包括有:
+
+(1) defaultinit —— 指定缺省的运行模式（runlevel）
+
+(2) sysinit —— 指定运行的第一个程序/脚本，此时runlevels域不起作用。
+
+(3) boot —— 在sysinit之后执行，runlevels域不起作用
+
+(4) bootwait —— 同boot，但init会等待该命令结束
+
+(5) once —— 在进入有runlevels指定的运行模式时运行
+
+(6) wait —— 同上，但init会等待该命令结束
+
+(7) respawn —— 在进入相应runlevel时执行，并且若该进程结束，init会再起一个进程执行同样的命令
+
+(icon_cool.gif ctrlaltdel —— 指定在用户按下Ctrl-Alt-Del时执行的命令
+
+对于linux来说，执行的顺序为：
+
+/etc/rc.d/rc.sysinit # 由init执行的第一个脚本
+
+/etc/rc.d/rc $RUNLEVEL # $RUNLEVEL为缺省的运行模式
+
+/sbin/mingetty # 等待用户登录
+
+init程序部分
+
+init 程序通常在/sbin或/bin下，它负责在系统启动时运行一系列程序和脚本文件。init程序一旦被内核调用，便成为系统的第0号进程，该进程对于 LINUX系统是十分重要的，有关它的详细内容请参阅其他资料。init进程做的每一步都由/etc/initab中的配置决定。以下是RadHat 的/etc/inittab文件的例子：
+
+inittab文件的每一行包含四个域，格式为：
+
+code:runlevels:action:command
+
+(1) code域用单个或两个字符序列来作为本行的标识，这个标识在此文件中是唯一的。文件中的某些记录必须使用特定的code才能使系统工作正常。
+
+(2) runlevels域给出的是本行的运行级别。LINUX系统运行在一定的级别下，当inittab文件指定了某一特定的运行级别时，该记录行包含的命令 将被执行。RedHat系统通常设置了7个运行级别（0-6），各运行级别的说明包含在inittab文件的开头。
+
+(3) action域指出的是init程序执行command命令的方式。比如：只执行command一次，还是在它退出时重启。
+
+(4) command域给出相应记录行要执行的命令
+
+运行级别1是单用户模式，所谓单用户指的是系统运行在唯一用户--超级用户模式下。而大多数情况下，系统运行在多用户模式下。在启动出错、文件系统出错等情况下，系统将进入单用户模式，此时，系统只有很少的配置，这对于恢复系统是很必要的。
+
+inittab文件首先指出缺省的运行级别（如 id:3:initdefault:），我们看到上面的例子中缺省的运行级别为3。此后根据下一条记录，系统应当运行/etc/rc.d /rc.sysinit，这是一个脚本文件，主要包括基本的系统初始化命令，如激活交换分区、检查并挂上文件系统、装载部分模块等。

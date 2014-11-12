@@ -1,0 +1,27 @@
+
+CENTOS 6 下INTEL集成显示驱动加载错误的解决办法  
+
+
+本人是从优盘安装的centos 6.2,但安装盘有个BUG,里面有一个文件必须是6.0的，同时，还需要把iso文件拷贝到优盘的根目录下，否则会提示安装镜像找不到的错误。这些都可以从GOOGLE得来。但主板的INTEL G41 集成显卡，确实难住了好长时间。
+
+道路是曲折的：不需要上INTEL官网上下载驱动，而我去了多很次。不需要安装 system-config-display,而我安装了。不需要修改Xorg.conf文件，而我修改了很多次。我还把所有mesa相关的驱动全部 yum install了，也没解决显卡的问题，没解决显示器分辨率的问题，没解决3D的问题。
+
+最终我只好杀到centos的老家了。
+
+感谢https://www.centos.org/modules/newbb/viewtopic.php?topic_id=33201&forum=55#threadtop ，问题得以解决。
+
+原文：
+0. telinit 3
+1. remove nomodeset from kernel line in grub.conf. Just scroll to end of this line and you will see it there.
+2. remove xorg.conf file ! It will load intel driver automatically
+3.reboot.
+
+译文：
+
+0 . 执行命令 telinit  3   ,需要root权限，即退出图形界面，回到命令行界面。
+
+1. 从文件/etc/grub.conf 的kernel行中删除“nomodeset" 。只要翻到该行的末尾，就可以看到这个词。
+
+2. 删除文件/etc/X11/xorg.conf ！INTEL驱动程序会自动被加载。
+
+3. 执行命令reboot, 重启系统。
