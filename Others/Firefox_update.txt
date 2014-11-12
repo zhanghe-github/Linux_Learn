@@ -1,0 +1,24 @@
+首先下载最新版本的Firefox，下载地址：
+
+https://download-installer.cdn.mozilla.net/pub/firefox/releases/31.0/linux-x86_64/zh-CN/firefox-31.0.tar.bz2
+
+下载完毕之后，将Firefox解压到/usr/local/目录下
+
+tar -jxvf firefox-31.0.tar.bz2 -C /usr/local/
+
+解压完毕之后，可以在/usr/local/下看到firefox程序目录
+
+接下来，修改面板下firefox下的属性
+
+在任务栏，右键点击firefox的属性，编辑属性，在运行命令中输入:
+
+usr/local/firefox/firefox %u
+
+接着，修改桌面快捷方式的运行方式
+
+编辑/usr/share/applications/mozilla-firefox.desktop文件
+
+vi /usr/share/applications/mozilla-firefox.desktop
+
+将其中的 Exec=firefox %u 那一行更改为 Exec=/usr/local/firefox/firefox %u
+这样就升级完firefox浏览器，点击快捷方式运行firefox就可以看到我们升级后的firefox浏览器了。
