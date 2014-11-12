@@ -1,0 +1,68 @@
+"========== The configuration of VIN ================="
+"
+"Last Change : 2014.10.18
+"verison : 1.0
+"===================================================="
+"参数配置
+	syntax on
+	
+	set number						"显示行号
+	set cursorline					"突出显示当前行
+	set ruler						"打开状态栏标尺
+	set shiftwidth=4					"设定<<和>>命令移动时的宽度
+	set tabstop=4						"设定tab键长度为4
+	set autochdir					"自动切换当前目录为当前文件所在目录
+	set showmatch					"插入括号时短暂地跳转到对应括号
+	set matchtime=2					"短暂跳转到匹配括号的时间
+	set smartindent					"开启新行时 启动智能缩进
+	set cmdheight=1					"设定命令行的行数
+	set laststatus=2				"显示状态栏（1关闭 2开启）
+" 
+"====================================================="
+"版权声明设置，添加更新文件头
+"按键F4映射到AddAuthor()函数
+map <F4> ms:call AddAuthor()<cr>'s
+
+function AddAuthor()
+	let n=1
+	while n<5
+		let line = getline(n)
+		if line =~'^\s*\*\s*\S*Last\s*modified\s*:\S*.*$'
+			call UpdateTitle()
+			return 
+		endif
+		let n = n+1
+	endwhile
+	call AddTile()
+endfunction
+
+"添加UpdateTitle()更新更改时间函数，在AddAuthor()函数判断文件前五行内容中
+"出现Last modified字符后，将执行此函数进行更新时间
+function UpdateTitle()
+	normal m'
+	execute '/* Last modified\s*:/s@:.*$@\=strftime(": %Y-%m-%d %H:%M")@'
+	normal "
+	normal mk
+	execute '/* Filename\s*:/s@:.*$@\=": ".expand("%:t")@'
+	execute "noh"
+	normal 'k
+	echohl WarningMsg | echo "Successful in updating the copy right." | echohl None
+endfunction
+
+"添加AddTitle()新添加作者信息函数，在AddAuthor()函数判断文件前五行内容中没有出现Last modified字符
+"将执行此函数进行添加作者信息，此函数需要设置作者信息的内容，可自行设置
+"但必须要有” Last modified”信息行，且此行必须在前5行内
+"否则AddAuthor()函数在前5行判断不到此条信息，那么每按一次F4都将添加作者信息
+function AddTile()
+	call append(0,"/**********************************************************")
+	call append(1," * Author        : Zhang He")
+	call append(2," * Email         : zhanghe901126@163.com")
+	call append(3," * Last modified : ".strftime("%Y-%m-%d %H:%M"))
+	call append(4," * Filename      : ".expand("%:t"))
+	call append(5," * QQ            : 935949330")
+	call append(6," * Description   : ")
+	call append(7," * *******************************************************/")
+	echohl WarningMsg | echo "Successful in adding the copyright." | echohl None
+endfunction
+
+

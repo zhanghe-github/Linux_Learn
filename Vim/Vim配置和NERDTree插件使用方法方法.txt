@@ -1,0 +1,23 @@
+.vimrc文件配置方法：
+
+1 创建 .vimrc 文件（隐藏文件）， 将vimrc_zhanghe.txt中内容复制到.vimrc 文件中；
+
+2.1 在zhanghe-guest用户模式下配置vim编辑器：
+    将.vimrc文件拷贝到“/home/zhanghe-guest”用户目录下即可。
+
+2.2 在Root模式下配置vim编辑器：
+    将.vimrc文件拷贝到“/root”目录下即可。
+
+
+
+
+NERDTree插件vim使用方法：
+
+1.1 在zhanghe-guest用户模式下配置Vim的NERDTree插件：
+    （1）在“/home/zhanghe-guest”用户目录下分别创建“.vim”隐藏文件夹；
+    （2）在“.vim”目录下分别创建doc和plugin文件夹；
+    （3）分别将“nrdtree/plugin/NERD_tree.vim”和“nrdtree/doc/NERD_tree.txt”拷贝到“/home/zhanghe-guest/.vim/plugin”和“/home/zhanghe-guest/.vim/doc”目录下；
+    （4）在Vim编辑器下执行“：NERDTree”即可。
+
+2.1 在root用户模式下配置Vim的NERDTree插件：
+    （1）将以上步骤中的“/home/zhanghe-guest”用户目录 改成“/root”即可；

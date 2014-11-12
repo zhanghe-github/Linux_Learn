@@ -1,0 +1,52 @@
+1. linux上Git与GitHub配置:
+
+第一步：在github.com网站创建账号：zhanghe-github  密码：######
+
+第二步：确保PC机上安装了Git，
+	命令：$ git --version
+		git version 1.8.3.1(zhanghe-centos7下的git版本)
+
+第三步：生成ssh key。在PC机上操作：首先在/home/zhanghe下建立".ssh"文件夹，
+		cd到/home/zhanghe/.ssh,利用ssh-keygen工具生成公钥：
+		输入命令：$ ssh-keygen -t rsa -C "zhanghe@cqu.edu.cn" 注意：邮箱是注册github的邮箱；
+		出现提示，一路回车即可；
+	
+第四步；添加ssh key 到GitHub中：（在github网页上操作）
+		打开/home/zhanghe/.ssh/id_rsa.pub 将文件中的文本全部复制到Key框中即可；
+		
+第五步：测试是否成功：
+		PC机上输入命令： $ ssh -T git@github.com
+		成功则提示：Hi zhanghe-github！ you have successfully authenticated , but github does not provide shell access.
+
+第六步：配置Git的配置文件，username和email：
+		git config --global user.name "zhanghe-github" 					//配置用户名
+		git config --global user.email "zhanghe@cqu.edu.cn" 			//配置email
+		
+//===========================================================================================		
+至此linux上的Git与GitHub已经配置完毕！！！！！！！！！
+//===========================================================================================		
+
+2. 从GitHub克隆项目到本地:
+
+第一步： 确保GitHub上已经创建好仓库Hello-World，进入仓库Hello-World，然后复制右边的有个“HTTPS clone url”；
+
+第二步： 1.CD到要存放该仓库的文件夹下如：my—github文件件，
+		 输入命令：$ git clone https://github.com/zhanghe-github/Hello-World.git
+		 即可在my—github文件下看到Hello-World文件夹，与仓库中的一模一样；
+		 
+		 2.如果在my—github文件下已经存在Hello-World文件夹，但是版本较旧，则CD到Hello-World文件夹，
+		 输入命令：$ git pull //自动更新
+		 
+		 3.CD到Hello-World文件夹，输入命令：$ git log //查看提交信息
+		 
+		 4.修改文件后，输入命令:$ git diff //查看修改信息 确认本地文件与远程仓库是否一致；
+		 
+		 5.输入命令：$ git ststus 或git status -s //查看修改信息
+		 
+		 6.添加已经修改的文件：输入命令：$ git add hello.cpp config.h .....
+		 
+		 7.提交并添加修改信息：输入命令：$ git commit -m “edit the hello.cpp and config.h”
+		 
+		 8.输入命令：$ git log //查看提交信息
+		 
+		 9.推送上传文件：命令：$ git push origin master
